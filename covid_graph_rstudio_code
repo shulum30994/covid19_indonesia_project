@@ -1,0 +1,27 @@
+library(ggplot2)
+library(dplyr)
+#-------------------------HARIAN---------------------------
+#Pertambahan Terkonfirmasi per hari
+ggplot(laporan_terkini%>%filter(kategori=='Terkonfirmasi Harian'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Orang/hari')+theme_linedraw()+ggtitle('Pertambahan Jumlah Orang yang Terkonfirmasi COVID-19 Per Hari Nasional')+theme(legend.position = 'none')
+
+#Pertambahan Pasien Sembuh per hari
+ggplot(laporan_terkini%>%filter(kategori=='Sembuh Harian'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Pasien/hari')+theme_linedraw()+ggtitle('Pertambahan Jumlah Pasien yang Telah Sembuh dari COVID-19 Per Hari Nasional')+theme(legend.position = 'none')
+
+#Pertambahan Pasien Meninggal per hari
+ggplot(laporan_terkini%>%filter(kategori=='Kematian Harian'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Pasien/hari')+theme_linedraw()+ggtitle('Pertambahan Jumlah Pasien yang Meninggal Dunia akibat COVID-19 Per Hari Nasional')+theme(legend.position = 'none')
+
+#Pertambahan Orang Diperiksa per hari
+ggplot(laporan_terkini%>%filter(kategori=='Diperiksa Harian'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Orang/hari')+theme_linedraw()+ggtitle('Pertambahan Jumlah Orang yang Diperiksa COVID-19 Per Hari Nasional')+theme(legend.position = 'none')
+
+#------------------------------KUMULATIF--------------------
+#Pertambahan Kumulatif Terkonfirmasi
+ggplot(laporan_terkini%>%filter(kategori=='Terkonfirmasi'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Orang')+theme_linedraw()+ggtitle('Pertambahan Kumulatif Kasus Terkonfirmasi COVID-19 Nasional')+theme(legend.position = 'none')
+
+#Pertambahan Kumulatif Sembuh
+ggplot(laporan_terkini%>%filter(kategori=='Sembuh'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Orang')+theme_linedraw()+ggtitle('Pertambahan Kumulatif Kematian akibat COVID-19 Nasional')+theme(legend.position = 'none')
+
+#Pertambahan Kumulatif Kematian
+ggplot(laporan_terkini%>%filter(kategori=='Kematian'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Orang')+theme_linedraw()+ggtitle('Pertambahan Kumulatif Kematian akibat COVID-19 Nasional')+theme(legend.position = 'none')
+
+#Pertambahan Kumulatif Diperiksa
+ggplot(laporan_terkini%>%filter(kategori=='Diperiksa'))+aes(x=as.Date(tanggal),y=nilai,color=as.factor(tahun))+geom_line()+xlab('Waktu')+ylab('Orang')+theme_linedraw()+ggtitle('Pertambahan Kumulatif Jumlah orang yang Diperiksa akibat COVID-19 Nasional')+theme(legend.position = 'none')
