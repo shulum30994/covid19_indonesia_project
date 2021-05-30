@@ -1,0 +1,23 @@
+#contoh grafis dengan pembatas fase berupa background
+ggplot(corona, aes(x=as.Date(tanggal), y=terkonfirmasi))+geom_rect(aes(NULL, NULL, xmin=awal_corona, xmax=akhir_corona, fill=fase), ymin=-Inf, ymax=Inf, alpha=1)+scale_fill_manual(values=c("Hari Biasa"="seagreen1", "H-7 Lebaran"="yellow", "Ramadhan"="lightblue", "Hari Raya"="darkgoldenrod1", "H+7 Lebaran"="olivedrab1"))+geom_line(size=1.2, color="red")
+
+#tampilkan grafik pertambahan kasus covid19
+ggplot(corona, aes(x=as.Date(tanggal), y=terkonfirmasi))+geom_rect(aes(NULL, NULL, xmin=awal_corona, xmax=akhir_corona, fill=fase), ymin=-Inf, ymax=Inf, alpha=0.5)+scale_fill_manual(values=c("Pra Pandemi"="cyan3", "Evakuasi ABK World Dream"="chartreuse", "Transisi Pandemi"="deepskyblue", "Kasus Pertama COVID-19"="tomato1", "Inklinasi COVID-19"="khaki2", "Darurat COVID-19"="sienna2", "Kebijakan PSBB"="lawngreen", "Transisi New Normal"="olivedrab2", "New Normal"="limegreen"))+geom_line(size=1.1, color="navy")+xlab("Waktu")+ylab("Kasus")+ggtitle("Grafik Pertambahan Kasus Terkonfirmasi COVID-19 di Indonesia")+labs(fill = "Periodisasi")+geom_label(aes(x=as.Date('2020-05-27'), y=23165), label= "Kasus", position = "identity")+geom_label_repel(data=label_kasus, aes(x=as.Date(as.Date(tanggal)), y=terkonfirmasi), label="Kasus  Terkonfirmasi", nudge_x = -20, nudge_y = 10, direction = "x", angle=90)+theme(legend.position ="bottom")
+
+#membuat dataset dari koneksi yang telah dibangun
+dataset_responden <- dbGetQuery(koneksi, 'select nama, gender, usia, surveyor, kabupaten, profesi from responden')
+
+#menghitung rata-rata usia responden berdasarkan kabupaten
+rerata_kabupaten <- aggregate(x=dataset_responden$usia, by=list(dataset_responden$kabupaten), FUN=mean)
+
+#menambahkan nama kolom di rata-rata usia responden yang sudah diurutkan berdasarkan kabupaten
+rerata_kabupaten <- setNames(rerata_kabupaten,c('kabupaten','rerata_usia'))
+
+#membuat dasar piechar dari geom_bar
+ggplot(rerata_kabupaten)+aes(x='',y=rerata_usia,fill=kabupaten)+geom_bar(stat = 'identity',width=1)
+
+#
+ggplot(rerata_kabupaten)+aes(x='',y=rerata_usia,fill=kabupaten)+geom_bar(stat = 'identity',width=1)+coord_polar("y", start=0)
+
+#membuat koneksi dengan basis data mysql
+koneksi <- dbConnect(RMySQL::MySQL(),host='127.0.0.1',user='root',password='',dbname='latihan_db')
