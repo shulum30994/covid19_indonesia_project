@@ -20,4 +20,14 @@ ggplot(rerata_kabupaten)+aes(x='',y=rerata_usia,fill=kabupaten)+geom_bar(stat = 
 ggplot(rerata_kabupaten)+aes(x='',y=rerata_usia,fill=kabupaten)+geom_bar(stat = 'identity',width=1)+coord_polar("y", start=0)
 
 #membuat koneksi dengan basis data mysql
-koneksi <- dbConnect(RMySQL::MySQL(),host='127.0.0.1',user='root',password='',dbname='latihan_db')
+(library(RMySQL)
+library(DBI)
+db_user <- 'root'
+db_password <- ''
+db_name <- 'latihan_db'
+db_host <- '127.0.0.1' # for local access
+db_port <- 3306
+mydb <-  dbConnect(MySQL(), user = db_user, password = db_password,
+                   dbname = db_name, host = db_host, port = db_port)
+
+coba <- dbGetQuery(mydb,'select hkp, hkw, responden.umur, responden.kabupaten from bc join responden on kode_gps=no_responden limit 30')
